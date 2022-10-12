@@ -4,12 +4,21 @@ const bodyParser = require('body-parser')
 const { empty } = require('statuses')
 var app = express()
 
+const PORT = process.env.PORT || 3000
+
+const DB_HOST = process.env.DB_HOST || 'localhost'
+const DB_USER = process.env.DB_USER || 'root'
+const DB_PASSWORD = process.env.DB_PASSWORD || 'n0m3l0'
+const DB_NAME = process.env.DB_NAME || 'biblio'
+const DB_PORT = process.env.DB_PORT || 3306
+
 var con = mysql.createConnection(
     {
-        host:'localhost',
-        user:'root',
-        password: 'n0m3l0',
-        database:'biblio'
+        host: DB_HOST,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_NAME,
+        port: DB_PORT
     })
 
 app.use(express.static('public'))
@@ -22,9 +31,9 @@ app.use(bodyParser.urlencoded(
     }
 ))
 
-app.listen(3000,()=>
+app.listen(PORT,()=>
 {
-    console.log("Servidor escuchando en el puerto 3000")
+    console.log("Servidor escuchando en el puerto ", PORT)
 })
 
 app.post('/mostrarLibros', (req,res)=>{
